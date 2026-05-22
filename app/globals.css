@@ -1,0 +1,190 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Bella Concept Hair luxury palette */
+  --background: #faf7fb; /* off-white with subtle lilac undertone */
+  --foreground: #1c1a1f; /* graphite black (never pure black) */
+
+  --card: #ffffff;
+  --card-foreground: #1c1a1f;
+
+  --popover: #ffffff;
+  --popover-foreground: #1c1a1f;
+
+  /* Deep royal purple (primary) */
+  --primary: #2a103d;
+  --primary-foreground: #faf7fb;
+
+  /* Soft lavender (secondary) */
+  --secondary: #f5effa;
+  --secondary-foreground: #2a103d;
+
+  --muted: #f1ecf6;
+  --muted-foreground: #6b5c78;
+
+  /* Champagne gold (accent) */
+  --accent: #d4b06a;
+  --accent-foreground: #1c1a1f;
+
+  --destructive: #b91c1c;
+  --destructive-foreground: #faf7fb;
+
+  --border: #e9e1ef;
+  --input: #e9e1ef;
+  --ring: #2a103d;
+
+  --radius: 1rem;
+
+  /* Brand-specific tokens */
+  --purple-deep: #2a103d;
+  --purple-mid: #4a2870;
+  --purple-soft: #f5effa;
+  --gold: #d4b06a;
+  --gold-soft: #e9d4a3;
+  --ink: #1c1a1f;
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), 'Inter Fallback', system-ui, sans-serif;
+  --font-serif: var(--font-playfair), 'Playfair Display Fallback', Georgia, serif;
+  --font-mono: ui-monospace, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-purple-deep: var(--purple-deep);
+  --color-purple-mid: var(--purple-mid);
+  --color-purple-soft: var(--purple-soft);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-ink: var(--ink);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 8px);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Editorial animations — luxurious, never fast */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 60px -10px rgba(212, 176, 106, 0.35), 0 0 100px -20px rgba(212, 176, 106, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 80px -10px rgba(212, 176, 106, 0.55), 0 0 140px -20px rgba(212, 176, 106, 0.3);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 1.6s ease-out both;
+}
+
+.animate-reveal {
+  animation: reveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-glow {
+  animation: shimmer-glow 4s ease-in-out infinite;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+.delay-400 {
+  animation-delay: 0.4s;
+}
+.delay-600 {
+  animation-delay: 0.6s;
+}
+.delay-800 {
+  animation-delay: 0.8s;
+}
+
+/* Reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hide scrollbar on horizontal galleries */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
