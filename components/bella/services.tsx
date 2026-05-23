@@ -7,16 +7,24 @@ import { Reveal } from "./reveal"
 import { cn } from "@/lib/utils"
 
 const services = [
-  { name: "Cortes", img: "/images/service-cuts.jpg", caption: "Geometria do rosto." },
-  { name: "Escovas", img: "/images/service-blowout.jpg", caption: "Movimento, sob medida." },
-  { name: "Mechas", img: "/images/service-highlights.jpg", caption: "Luz, desenhada à mão." },
-  { name: "Tintura", img: "/images/service-coloring.jpg", caption: "Tons que pertencem a você." },
-  { name: "Penteados", img: "/images/service-style.jpg", caption: "Para as suas noites marcantes." },
-  { name: "Tratamento capilar", img: "/images/service-treatment.jpg", caption: "Restauração como ritual." },
+  { name: "Cortes", img: "/images/service-cuts.jpg", caption: "Geometria do rosto.", category: "hair" },
+  { name: "Escovas", img: "/images/service-blowout.jpg", caption: "Movimento, sob medida.", category: "hair" },
+  { name: "Mechas", img: "/images/service-highlights.jpg", caption: "Luz, desenhada à mão.", category: "hair" },
+  { name: "Tintura", img: "/images/service-coloring.jpg", caption: "Tons que pertencem a você.", category: "hair" },
+  { name: "Penteados", img: "/images/service-style.jpg", caption: "Para as suas noites marcantes.", category: "hair" },
+  { name: "Tratamento capilar", img: "/images/service-treatment.jpg", caption: "Restauração como ritual.", category: "hair" },
+  { name: "Nail Design", img: "/images/service-nail-design.jpg", caption: "Arte que nasce nas pontas dos dedos.", category: "nails" },
+  { name: "Manicure", img: "/images/service-manicure.jpg", caption: "Mãos impecáveis, cuidado artesanal.", category: "nails" },
+  { name: "Pedicure", img: "/images/service-pedicure.jpg", caption: "Pés renovados, conforto absoluto.", category: "nails" },
 ]
 
 export function Services() {
   const [active, setActive] = useState<number | null>(null)
+  const [filter, setFilter] = useState<"all" | "hair" | "nails">("all")
+
+  const filteredServices = filter === "all" 
+    ? services 
+    : services.filter(s => s.category === filter)
 
   return (
     <section id="services" className="relative w-full overflow-hidden bg-background py-24 md:min-h-screen md:py-32">
@@ -38,8 +46,43 @@ export function Services() {
           </div>
         </Reveal>
 
-        <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 md:mt-20 lg:grid-cols-3">
-          {services.map((s, i) => {
+        {/* Filtros de categoria */}
+        <Reveal delay={100}>
+          <div className="mt-10 flex flex-wrap items-center gap-3 md:mt-14">
+            <span className="mr-2 text-xs uppercase tracking-widest text-foreground/50">Filtrar:</span>
+            {[
+              { key: "all", label: "Todos" },
+              { key: "hair", label: "Cabelo" },
+              { key: "nails", label: "Unhas" },
+            ].map((item) => (
+              <button
+                key={item.key}
+                type="button"
+                onClick={() => {
+                  setFilter(item.key as "all" | "hair" | "nails")
+                  setActive(null)
+                }}
+                className={cn(
+                  "relative rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-500",
+                  filter === item.key
+                    ? "border-purple-deep bg-purple-deep text-primary-foreground shadow-lg shadow-purple-deep/20"
+                    : "border-purple-deep/20 bg-transparent text-foreground/70 hover:border-purple-deep/40 hover:text-foreground"
+                )}
+              >
+                {item.label}
+                {filter === item.key && (
+                  <span className="absolute -right-1 -top-1 flex h-2.5 w-2.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-75" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-gold" />
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        </Reveal>
+
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 md:mt-14 lg:grid-cols-3">
+          {filteredServices.map((s, i) => {
             const isOpen = active === i
             return (
               <Reveal key={s.name} delay={(i % 3) * 100}>
